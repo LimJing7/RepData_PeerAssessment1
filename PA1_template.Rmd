@@ -64,3 +64,16 @@ There is no change in the mean number of steps but there is a slight increase in
 There is no significant impact as the missing values are estimated from the data itself.
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+```{r}
+ptd1=ptc1
+ptd2=mutate(ptd1,day=weekdays(date))
+ptd3a=mutate(filter(ptd2,day=="Saturday"|day=="Sunday"),wkday="Weekend")
+ptd3b=mutate(filter(ptd2,day!="Saturday"|day=="Sunday"),wkday="Weekday")
+ptd4a=group_by(ptd3a,interval)
+ptd4b=group_by(ptd3b,interval)
+ptd5a=summarise(ptd4a,ave=mean(steps))
+ptd5b=summarise(ptd4b,ave=mean(steps))
+plot(ptd5b$interval,ptd5b$ave,type='l', xlab='Interval',ylab='Average number of steps', main='Weekday')
+plot(ptd5a$interval,ptd5a$ave,type='l', xlab='Interval',ylab='Average number of steps', main='Weekend')
+```

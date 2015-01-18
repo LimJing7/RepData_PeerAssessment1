@@ -66,4 +66,29 @@ barplot(ptc3$steps,names.arg=ptc3$date)
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
+The mean total number of steps taken is 1.0766189 &times; 10<sup>4</sup> and the median total number of steps taken is 1.0766189 &times; 10<sup>4</sup>.  
+There is no change in the mean number of steps but there is a slight increase in the median.  
+There is no significant impact as the missing values are estimated from the data itself.
+
 ## Are there differences in activity patterns between weekdays and weekends?
+
+
+```r
+ptd1=ptc1
+ptd2=mutate(ptd1,day=weekdays(date))
+ptd3a=mutate(filter(ptd2,day=="Saturday"|day=="Sunday"),wkday="Weekend")
+ptd3b=mutate(filter(ptd2,day!="Saturday"|day=="Sunday"),wkday="Weekday")
+ptd4a=group_by(ptd3a,interval)
+ptd4b=group_by(ptd3b,interval)
+ptd5a=summarise(ptd4a,ave=mean(steps))
+ptd5b=summarise(ptd4b,ave=mean(steps))
+plot(ptd5b$interval,ptd5b$ave,type='l', xlab='Interval',ylab='Average number of steps', main='Weekday')
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
+
+```r
+plot(ptd5a$interval,ptd5a$ave,type='l', xlab='Interval',ylab='Average number of steps', main='Weekend')
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-2.png) 
